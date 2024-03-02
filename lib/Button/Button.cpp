@@ -1,7 +1,12 @@
 #include "Button.hpp"
 #include <Arduino.h>
 
-Button::Button(int pin, void (*onClickCallback)()) : buttonPin(pin), callback(onClickCallback), lastButtonState(LOW), currentButtonState(LOW), lastDebounceTime(0), debounceDelay(50)
+// BUTTON CONSTANTS
+#define INITIAL_DEBOUNCE_DELAY 50
+
+Button::Button() = default;
+
+Button::Button(int pin, void (*onClickCallback)()) : buttonPin(pin), callback(onClickCallback), lastButtonState(LOW), currentButtonState(LOW), lastDebounceTime(0), debounceDelay(INITIAL_DEBOUNCE_DELAY)
 {
   pinMode(pin, INPUT_PULLUP);
 }

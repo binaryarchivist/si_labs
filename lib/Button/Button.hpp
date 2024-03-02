@@ -12,6 +12,7 @@ private:
   void (*callback)();
 
 public:
+  Button();
   Button(int pin, void (*onClickCallback)());
   void checkForClick();
 };
