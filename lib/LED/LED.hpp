@@ -9,6 +9,7 @@ private:
 public:
     bool state;
 
+    LED();
     LED(int pinNumber);
     void turn(bool mode = true);
 };

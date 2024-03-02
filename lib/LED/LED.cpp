@@ -1,6 +1,8 @@
 #include "Led.hpp"
 #include <Arduino.h>
 
+LED::LED() = default;
+
 LED::LED(int pinNumber) : pin(pinNumber), state(LOW)
 {
   pinMode(pin, OUTPUT);
