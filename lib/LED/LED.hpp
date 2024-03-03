@@ -7,11 +7,13 @@ private:
     int pin;
 
 public:
-    bool state;
-
     LED();
     LED(int pinNumber);
-    void turn(bool mode = true);
+
+    void turnOn();
+    void turnOff();
+    bool getState();
+    void toggle();
 };
 
 #endif
