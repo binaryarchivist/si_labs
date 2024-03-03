@@ -2,14 +2,15 @@
 
 #include "Tasks.hpp"
 #include "Globals.hpp"
+#include "Definitions.hpp"
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(baudRate);
   initializeComponents();
   setTimerConfiguration();
 }
 
 void loop() {
   Serial.println("Loop");
-  delay(10000);
+  delay(loopDelay);
 }
