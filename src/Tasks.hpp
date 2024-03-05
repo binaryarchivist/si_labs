@@ -18,14 +18,14 @@ LED greenLed;
 LED intermittendLED;
 
 void handleReset();
-void handleToggleTask();
+void onToggleTask();
 
 void initializeComponents()
 {
     // Instantiate Buttons
     redButton = Button(RED_BUTTON_PIN, handleIncrementTask);
     blueButton = Button(BLUE_BUTTON_PIN, handleDecrementTask);
-    greenButton = Button(GREEN_BUTTON_PIN, handleToggleTask);
+    greenButton = Button(GREEN_BUTTON_PIN, onToggleTask);
     blackButton = Button(BLACK_BUTTON_PIN, handleReset);
 
     // Instantiate LEDs
@@ -61,13 +61,23 @@ void handleReset()
     blinkInterval = defaultInterval;
 }
 
-void handleToggleTask()
+void onToggleTask()
 {
     currentEvent = TOGGLE_EVENT;
 
     if (greenLed.getState())
         greenLed.turnOff();
     intermittendLED.turnOn();
+}
+
+void handleResetTask()
+{
+    blackButton.checkForClick();
+}
+
+void handleToggleTask()
+{
+    greenButton.checkForClick();
 }
 
 void setTimerConfiguration()
@@ -89,23 +99,22 @@ ISR(TIMER1_COMPA_vect)
 
     if (--recToggleLed <= 0)
     {
-        greenButton.checkForClick();
         recToggleLed = RECC_LED_TOGGLE;
+        currentTask |= TOGGLE;
     }
 
     if (--recChangeDelay <= 0)
     {
-        handleDelayTask();
         recChangeDelay = RECC_DELAY_CHANGE;
+        currentTask |= DELAY;
     }
 
      if (--recReset <= 0)
     {
-        blackButton.checkForClick();
         recReset = RECC_RESET_BTN;
+        currentTask |= RESET;
     }
-
-    idleTask();
+    currentTask |= IDLE;
 }
 
 #endif

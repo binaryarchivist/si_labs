@@ -1,4 +1,3 @@
-#pragma once
 #ifndef GLOBALS_HPP
 #define GLOBALS_HPP
 
@@ -7,6 +6,7 @@
 
 volatile unsigned long blinkInterval = defaultInterval;
 Event currentEvent = EVENT_NONE;
+volatile byte currentTask = NONE;
 EventManager eventManager = EventManager();
 
 void idleTask()

@@ -17,7 +17,7 @@ const long maxInterval = 2000;
 const long defaultInterval = 1000;
 const long minInterval = 100;
 const int baudRate = 9600;
-const int loopDelay = 10000; // 10 seconds
+const int loopDelay = 5; // 5 ms
 
 // OFFSETS
 #define LED_TOGGLE_RECC_OFFSET 2

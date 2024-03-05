@@ -11,6 +11,18 @@ void setup() {
 }
 
 void loop() {
-  Serial.println("Loop");
+  if (currentTask & IDLE) {
+    idleTask();
+  }
+  if (currentTask & DELAY) {
+    handleDelayTask();
+  }
+  if (currentTask & RESET) {
+    handleResetTask();
+  }
+  if (currentTask & TOGGLE) {
+    handleToggleTask();
+  }
+  currentTask = NONE;
   delay(loopDelay);
 }

@@ -10,6 +10,15 @@ enum Event
     TOGGLE_EVENT
 };
 
+enum Tasks
+{
+    NONE = 0,
+    IDLE = 1,
+    DELAY = 2,
+    RESET = 4,
+    TOGGLE = 8
+};
+
 class EventManager
 {
 public:
