@@ -1,5 +1,3 @@
-#pragma once
-
 #ifndef Tasks_HPP
 #define Tasks_HPP
 
