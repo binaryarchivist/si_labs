@@ -3,7 +3,7 @@
 
 #include <Arduino.h>
 #include "EventManager.hpp"
-#include "Definitions.hpp"
+#include "definitions.hpp"
 
 extern volatile unsigned long blinkInterval;
 extern Event currentEvent;

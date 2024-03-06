@@ -3,8 +3,8 @@
 
 #include <Arduino.h>
 
-#include "Definitions.hpp"
-#include "Globals.hpp"
+#include "definitions.hpp"
+#include "globals.hpp"
 
 void setTimerConfiguration()
 {

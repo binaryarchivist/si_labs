@@ -1,4 +1,4 @@
-#include "Globals.hpp"
+#include "globals.hpp"
 
 volatile unsigned long blinkInterval = defaultInterval;
 Event currentEvent = EVENT_NONE;

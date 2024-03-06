@@ -1,11 +1,11 @@
 #include <Arduino.h>
 
-#include "Globals.hpp"
-#include "Definitions.hpp"
 #include "Logger.hpp"
 
 #include "tasks.hpp"
 #include "timer.hpp"
+#include "globals.hpp"
+#include "definitions.hpp"
 
 void setup() {
   Logger::getInstance();

@@ -4,8 +4,8 @@
 #include <Arduino.h>
 #include "Button.hpp"
 #include "LED.hpp"
-#include "Definitions.hpp"
-#include "Globals.hpp"
+#include "definitions.hpp"
+#include "globals.hpp"
 
 void handleDelayTask();
 void handleReset();
