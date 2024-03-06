@@ -3,9 +3,10 @@
 #include "Tasks.hpp"
 #include "Globals.hpp"
 #include "Definitions.hpp"
+#include "Logger.hpp"
 
 void setup() {
-  Serial.begin(baudRate);
+  Logger::getInstance();
   initializeComponents();
   setTimerConfiguration();
 }

@@ -1,5 +1,7 @@
-#include "EventManager.hpp"
 #include <Arduino.h>
+#include <stdio.h>
+
+#include "EventManager.hpp"
 
 void EventManager::triggerEvent(Event eventType, long count)
 {
@@ -8,21 +10,19 @@ void EventManager::triggerEvent(Event eventType, long count)
     switch (eventType)
     {
     case INCREMENT_EVENT:
-        Serial.print("Increment event, current count: ");
-        Serial.println(count);
+        printf("Increment event, current count: %ld \r\n", count);
         break;
     case DECREMENT_EVENT:
-        Serial.print("Decrement event, current count: ");
-        Serial.println(count);
+        printf("Decrement event, current count: %ld \r\n", count);
         break;
     case RESET_EVENT:
-        Serial.println("Reset event");
+        printf("Reset event \r\n");
         break;
     case TOGGLE_EVENT:
-        Serial.println("Toggle Event");
+        printf("Toggle Event \r\n");
         break;
     default:
-        Serial.println("Unknown Event");
+        printf("Unknown Event \r\n");
         break;
     }
 }
