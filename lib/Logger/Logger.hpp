@@ -3,6 +3,15 @@
 
 #include "Arduino.h"
 
+#include <LiquidCrystal_I2C.h>
+
+// Constants
+extern const int LCD_ADDR;
+extern const int LCD_COLUMNS;
+extern const int LCD_ROWS;
+
+extern LiquidCrystal_I2C lcd;
+
 class Logger
 {
 private:
@@ -21,6 +30,7 @@ public:
 
     int putChar(char c, FILE *f);
     int getChar(FILE *f);
+    void clearScreen();
 };
 
 #endif

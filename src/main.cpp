@@ -11,6 +11,9 @@ void setup() {
   Logger::getInstance();
   initializeComponents();
   setTimerConfiguration();
+
+  lcd.init(); // Initialize the LCD screen
+  lcd.backlight(); // Turn on the backlight
 }
 
 void loop() {

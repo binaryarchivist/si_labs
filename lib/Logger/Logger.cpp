@@ -1,6 +1,13 @@
 #include "Logger.hpp"
+#include <LiquidCrystal_I2C.h>
 
 Logger *Logger::instance = nullptr;
+
+const int LCD_ADDR = 0x27;
+const int LCD_COLUMNS = 20;
+const int LCD_ROWS = 4;
+
+LiquidCrystal_I2C lcd(LCD_ADDR, LCD_COLUMNS, LCD_ROWS);
 
 Logger::Logger(unsigned long baudRate)
 {
@@ -31,11 +38,23 @@ int Logger::getCharWrapper(FILE *f)
 
 int Logger::putChar(char c, FILE *f)
 {
-    return Serial.write(c);
+    // if (c == '\n') {
+    //     lcd.clear();
+    //     lcd.setCursor(0, 0);
+    //     return 1;
+    // }
+    lcd.print(c);
+    return 1;
 }
 
 int Logger::getChar(FILE *f)
 {
     while (!Serial.available());
     return Serial.read();
+}
+
+void Logger::clearScreen()
+{
+    lcd.clear();
+    lcd.setCursor(0, 0);
 }
