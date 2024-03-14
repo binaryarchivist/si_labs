@@ -4,31 +4,33 @@
 #include "EventManager.hpp"
 #include "Logger.hpp"
 
-void EventManager::triggerEvent(Event eventType, long count)
+void EventManager::triggerEvent(byte eventType, long count)
 {
-    if (eventType == EVENT_NONE) return;
+      if (eventType & EVENT_NONE)
+      {
+            printf("NONE EVENT\n");
+            // Serial.println("NONE EVENT");
+      }
+      if (eventType & INCREMENT_EVENT)
+      {
+            printf("Increment event, current count: %ld \r\n", count);
+            // Serial.println("INCREMENT_EVENT");
 
-    switch (eventType)
-    {
-    case INCREMENT_EVENT:
-        Logger::getInstance()->clearScreen();
-        printf("Increment event, current count: %ld \r\n", count);
-        break;
-    case DECREMENT_EVENT:
-        Logger::getInstance()->clearScreen();
-        printf("Decrement event, current count: %ld \r\n", count);
-        break;
-    case RESET_EVENT:
-        Logger::getInstance()->clearScreen();
-        printf("Reset event \r\n");
-        break;
-    case TOGGLE_EVENT:
-        Logger::getInstance()->clearScreen();
-        printf("Toggle Event \r\n");
-        break;
-    default:
-        Logger::getInstance()->clearScreen();
-        printf("Unknown Event \r\n");
-        break;
-    }
+      }
+      if (eventType & DECREMENT_EVENT)
+      {
+            printf("DECREMENT event, current count: %ld \r\n", count);
+            // Serial.println("DECREMENT_EVENT");
+
+      }
+      if (eventType & TOGGLE_EVENT)
+      {
+            printf("TOGGLE EVENT\n");
+            // Serial.println("TOGGLE_EVENT");
+      }
+      if (eventType & RESET_EVENT)
+      {
+            printf("RESET EVENT\n");
+            // Serial.println("RESET_EVENT");
+      }
 }

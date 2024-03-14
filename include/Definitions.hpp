@@ -19,6 +19,11 @@ const long minInterval = 100;
 const int baudRate = 9600;
 const int loopDelay = 5; // 5 ms
 
+#define TOGGLE_TASK_DELAY 50
+#define DELAY_TASK_DELAY 50
+#define IDLE_TASK_DELAY 200
+#define RESET_TASK_DELAY 50
+
 // OFFSETS
 #define LED_TOGGLE_RECC_OFFSET 2
 #define DELAY_CHANGE_RECC_OFFSET 0

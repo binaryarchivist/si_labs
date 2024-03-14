@@ -2,7 +2,7 @@
 #include <Arduino.h>
 
 // BUTTON CONSTANTS
-#define INITIAL_DEBOUNCE_DELAY 50
+#define INITIAL_DEBOUNCE_DELAY 1
 
 Button::Button() = default;
 

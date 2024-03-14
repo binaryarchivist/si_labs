@@ -15,6 +15,7 @@ public:
   Button();
   Button(int pin, void (*onClickCallback)());
   void checkForClick();
+  void click();
 };
 
 #endif

@@ -1,4 +1,7 @@
 #include "Tasks.hpp"
+#include "globals.hpp"
+#include <Arduino_FreeRTOS.h>
+#include <semphr.h>
 
 Button redButton;
 Button blueButton;
@@ -8,23 +11,29 @@ Button blackButton;
 LED greenLed;
 LED intermittendLED;
 
-void handleDelayTask()
-{
-    redButton.checkForClick();
-    blueButton.checkForClick();
-    static unsigned long lastToggleTime;
+SemaphoreHandle_t semaphore;
 
-    if ((millis() - lastToggleTime < blinkInterval) || greenLed.getState())
+void handleIncrement()
+{
+    currentEvent |= INCREMENT_EVENT;
+    if (blinkInterval + intervalStep <= maxInterval)
     {
-        return;
+        blinkInterval += intervalStep;
     }
-    intermittendLED.toggle();
-    lastToggleTime = millis();
+}
+
+void handleDecrement()
+{
+    currentEvent |= DECREMENT_EVENT;
+    if (blinkInterval - intervalStep >= minInterval)
+    {
+        blinkInterval -= intervalStep;
+    }
 }
 
 void handleReset()
 {
-    currentEvent = RESET_EVENT;
+    currentEvent |= RESET_EVENT;
 
     intermittendLED.turnOff();
     greenLed.turnOn();
@@ -32,30 +41,95 @@ void handleReset()
     blinkInterval = defaultInterval;
 }
 
-void onToggleTask()
+void handleToggle()
 {
-    currentEvent = TOGGLE_EVENT;
+    currentEvent |= TOGGLE_EVENT;
 
     if (greenLed.getState())
+    {
         greenLed.turnOff();
+    }
+
     intermittendLED.turnOn();
 }
 
-void handleResetTask()
+void delayTask(void *params)
 {
-    blackButton.checkForClick();
+    static TickType_t taskDelay = pdMS_TO_TICKS(DELAY_TASK_DELAY);
+    vTaskDelay(taskDelay);
+    static unsigned long lastToggleTime;
+
+    for (;;)
+    {
+        if (xSemaphoreTake(semaphore, portMAX_DELAY) == pdTRUE)
+        {
+            redButton.checkForClick();
+            blueButton.checkForClick();
+
+            if ((millis() - lastToggleTime >= blinkInterval) && !greenLed.getState())
+            {
+                intermittendLED.toggle();
+                lastToggleTime = millis();
+            }
+
+            xSemaphoreGive(semaphore);
+        }
+        vTaskDelay(taskDelay);
+    }
 }
 
-void handleToggleTask()
+void resetTask(void *params)
 {
-    greenButton.checkForClick();
+    static TickType_t taskDelay = pdMS_TO_TICKS(RESET_TASK_DELAY);
+    vTaskDelay(taskDelay);
+
+    for (;;)
+    {
+        if (xSemaphoreTake(semaphore, portMAX_DELAY) == pdTRUE)
+        {
+            blackButton.checkForClick();
+            xSemaphoreGive(semaphore);
+        }
+        vTaskDelay(taskDelay);
+    }
+}
+
+void toggleTask(void *params)
+{
+    static TickType_t taskDelay = pdMS_TO_TICKS(TOGGLE_TASK_DELAY);
+    vTaskDelay(taskDelay);
+
+    for (;;)
+    {
+        if (xSemaphoreTake(semaphore, portMAX_DELAY) == pdTRUE)
+        {
+            greenButton.checkForClick();
+            xSemaphoreGive(semaphore);
+        }
+        vTaskDelay(taskDelay);
+    }
+}
+
+void idleTask(void *params)
+{
+    static TickType_t taskDelay = pdMS_TO_TICKS(IDLE_TASK_DELAY);
+    for (;;)
+    {
+        if (xSemaphoreTake(semaphore, portMAX_DELAY) == pdTRUE)
+        {
+            eventManager.triggerEvent(currentEvent, blinkInterval);
+            currentEvent = EVENT_NONE;
+            xSemaphoreGive(semaphore);
+        }
+        vTaskDelay(taskDelay);
+    }
 }
 
 void initializeComponents()
 {
-    redButton = Button(RED_BUTTON_PIN, handleIncrementTask);
-    blueButton = Button(BLUE_BUTTON_PIN, handleDecrementTask);
-    greenButton = Button(GREEN_BUTTON_PIN, onToggleTask);
+    redButton = Button(RED_BUTTON_PIN, handleIncrement);
+    blueButton = Button(BLUE_BUTTON_PIN, handleDecrement);
+    greenButton = Button(GREEN_BUTTON_PIN, handleToggle);
     blackButton = Button(BLACK_BUTTON_PIN, handleReset);
 
     greenLed = LED(GREEN_LED_PIN);
@@ -63,4 +137,7 @@ void initializeComponents()
 
     greenLed.turnOn();
     intermittendLED.turnOff();
+
+    semaphore = xSemaphoreCreateBinary();
+    xSemaphoreGive(semaphore);
 }

@@ -4,14 +4,12 @@
 #include <Arduino.h>
 #include "EventManager.hpp"
 #include "definitions.hpp"
+#include <Arduino_FreeRTOS.h>
+#include <semphr.h>
 
 extern volatile unsigned long blinkInterval;
-extern Event currentEvent;
+extern volatile byte currentEvent;
 extern volatile byte currentTask;
 extern EventManager eventManager;
-
-void idleTask();
-void handleIncrementTask();
-void handleDecrementTask();
 
 #endif

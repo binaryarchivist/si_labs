@@ -3,11 +3,11 @@
 
 enum Event
 {
-    EVENT_NONE,
-    INCREMENT_EVENT,
-    DECREMENT_EVENT,
-    RESET_EVENT,
-    TOGGLE_EVENT
+    EVENT_NONE = 0,
+    INCREMENT_EVENT = 1,
+    DECREMENT_EVENT = 2,
+    RESET_EVENT = 4,
+    TOGGLE_EVENT = 8
 };
 
 enum Tasks
@@ -22,7 +22,7 @@ enum Tasks
 class EventManager
 {
 public:
-    void triggerEvent(Event eventType, long count = 0);
+    void triggerEvent(byte eventType, long count = 0);
 };
 
 #endif
